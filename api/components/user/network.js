@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    controller.upsert(req.body.name)
+    controller.upsert(req.body)
         .then(() => {
             response.success(req, res, 'User created')
         })

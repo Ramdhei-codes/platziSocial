@@ -6,10 +6,12 @@ exports.success = (req, res, message = '', status = 200) => {
     })
 }
 
-exports.error = (req, res, message = 'Internal Server Error', status = 500) => {
+exports.error = (req, res, message = 'Internal Server Error', status = 500, details) => {
     res.status(status).send({
         error: true,
         status,
-        body: message
+        body: message,
     })
+
+    console.log(details)
 }

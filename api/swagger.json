@@ -25,23 +25,22 @@
         "summary": "Lista de usuarios",
         "description": "Traemos la lista de los usuarios de nuestra app",
         "operationId": "listOfUsers",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Lista de usuarios",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/User"
-            }
-          }
-        ],
         "responses": {
           "default": {
             "description": "successful operation"
+          }
+        }
+      },
+      "get/{id}":{
+        "tags":[
+          "user"
+        ],
+        "summary": "Obtener usuario",
+        "description": "Nos trae un usuario según su id",
+        "operationId": "getUser",
+        "responses":{
+          "default":{
+            "description": "user obtained successfully"
           }
         }
       },
