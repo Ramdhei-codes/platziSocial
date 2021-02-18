@@ -1,4 +1,5 @@
 const auth = require('../../../auth')
+const bcrypt = require('bcrypt')
 
 const TABLE = 'auth'
 
@@ -11,25 +12,28 @@ module.exports = function (injectedStore) {
 
     async function login(username, password) {
         const userData = await store.query(TABLE, {username: username})
-        if(userData.password === password) {
-            //generar token
-            return auth.sign(userData)
-        } else {
-            throw new Error('Invalid info')
-        }
+        return bcrypt.compare(password, userData.password)
+            .then(isThePassword => {
+                if(isThePassword === true) {
+                    return auth.sign(userData)
+                } else {
+                    throw new Error('Invalid info')
+                }
+            })
     }
 
-    function upsert(data) {
+    async function upsert(data) {
         const authData = {
             id: data.id
         }
+        const rounds = 5
 
         if(data.username) {
             authData.username = data.username
         }
 
         if(data.password) {
-            authData.password = data.password
+            authData.password = await bcrypt.hash(data.password, rounds)
         }
 
         return store.upsert(TABLE, authData)

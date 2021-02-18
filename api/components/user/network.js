@@ -2,6 +2,8 @@ const express = require('express')
 const response = require('../../../network/response')
 const router = express.Router()
 
+const secure = require('./secure')
+
 const controller = require('./index')
 
 router.get('/', (req, res) => {
@@ -30,6 +32,17 @@ router.post('/', (req, res) => {
     controller.upsert(req.body)
         .then(() => {
             response.success(req, res, 'User created')
+        })
+        .catch(error => {
+            response.error(req, res)
+        })
+    
+})
+
+router.put('/', secure('update') ,(req, res) => {
+    controller.upsert(req.body)
+        .then(() => {
+            response.success(req, res, 'User modified')
         })
         .catch(error => {
             response.error(req, res)
