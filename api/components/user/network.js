@@ -6,47 +6,39 @@ const secure = require('./secure')
 
 const controller = require('./index')
 
-router.get('/', (req, res) => {
+router.get('/', (req, res, next) => {
     controller.list()
         .then(list => {
             response.success(req, res, list)
         })
-        .catch(error => {
-            response.error(req, res)
-        })
+        .catch(next)
     
 })
 
-router.get('/:id', (req, res) => {
+router.get('/:id', (req, res, next) => {
     controller.get(req.params.id)
         .then(user => {
             response.success(req, res, user)
         })
-        .catch(error => {
-            response.error(req, res)
-        })
+        .catch(next)
     
 })
 
-router.post('/', (req, res) => {
+router.post('/', (req, res, next) => {
     controller.upsert(req.body)
         .then(() => {
             response.success(req, res, 'User created')
         })
-        .catch(error => {
-            response.error(req, res)
-        })
+        .catch(next)
     
 })
 
-router.put('/', secure('update') ,(req, res) => {
+router.put('/', secure('update') ,(req, res, next) => {
     controller.upsert(req.body)
         .then(() => {
             response.success(req, res, 'User modified')
         })
-        .catch(error => {
-            response.error(req, res)
-        })
+        .catch(next)
     
 })
 

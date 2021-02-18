@@ -1,5 +1,6 @@
 const JWT = require('jsonwebtoken')
 const config = require('../config')
+const error = require('../utils/error')
 
 const secret = config.jwt.secret
 
@@ -17,18 +18,18 @@ const check = {
         console.log(decodedToken)
 
         if(decodedToken.id !== owner) {
-            throw new Error('No permissions bro, sorry')
+            throw error('No permissions', 401)
         }
     }
 }
 
 function getToken(authorization) {
     if(!authorization) {
-        throw new Error('There is not a token')
+        throw error('There is not a token', 401)
     }
 
     if(authorization.indexOf('Bearer') === -1) {
-        throw new Error('Invalid format')
+        throw error('Invalid format', 400)
     }
 
     const token = authorization.replace('Bearer ', '')

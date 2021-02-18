@@ -17,7 +17,7 @@ module.exports = function (injectedStore) {
                 if(isThePassword === true) {
                     return auth.sign(userData)
                 } else {
-                    throw new Error('Invalid info')
+                    throw error('Invalid info', 400)
                 }
             })
     }
