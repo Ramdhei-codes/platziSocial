@@ -15,7 +15,7 @@ function verify(token) {
 const check = {
     own: function(req, owner) {
         const decodedToken = decodeHeader(req)
-        console.log(decodedToken)
+        console.log(decodedToken.id)
 
         if(decodedToken.id !== owner) {
             throw error('No permissions', 401)
