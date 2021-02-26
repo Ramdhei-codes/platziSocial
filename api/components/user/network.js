@@ -33,6 +33,14 @@ router.post('/', (req, res, next) => {
     
 })
 
+router.post('/follow/:id', secure('follow'), (req, res, next) => {
+    controller.follow(req.user.id, req.params.id)
+        .then(data => {
+            response.success(req, res, data, 200)
+        })
+        .catch(next)
+})
+
 router.put('/', secure('update') ,(req, res, next) => {
     controller.upsert(req.body)
         .then(() => {

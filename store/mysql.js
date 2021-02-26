@@ -66,11 +66,44 @@ function get(table, id) {
 //     }
 // }
 
-async function upsert(table, data) {
-    try {
-        return await connection.query(`INSERT INTO ${table} SET ? ON DUPLICATE KEY UPDATE ?`, [data, data])
-    } catch (err) {
-        throw error(err, 401)
+// async function upsert(table, data) {
+//     try {
+//         return await connection.query(`INSERT INTO ${table} SET ? ON DUPLICATE KEY UPDATE ?`, [data, data])
+//     } catch (err) {
+//         throw error(err, 401)
+//     }
+// }
+
+function insert(table, data) {
+    return new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO ${table} SET ?`, data, (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        })
+    })
+}
+
+function update(table, data) {
+    return new Promise((resolve, reject) => {
+        connection.query(`UPDATE ${table} SET ? WHERE id=?`, [data, data.id], (err, result) => {
+            if (err) return reject(err);
+            resolve(result);
+        })
+    })
+}
+
+
+function upsert(table, data) {
+    let row = []
+
+    if(data.id) {
+        row = get(table, data.id)
+    }
+
+    if(row.length === 0){
+        return insert(table, data)
+    } else {
+        return update(table, data)
     }
 }
 

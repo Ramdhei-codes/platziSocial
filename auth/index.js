@@ -20,6 +20,10 @@ const check = {
         if(decodedToken.id !== owner) {
             throw error('No permissions', 401)
         }
+    },
+
+    logged: function(req, owner) {
+        const decodedToken = decodeHeader(req)
     }
 }
 
