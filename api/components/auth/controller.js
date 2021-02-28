@@ -1,5 +1,6 @@
 const auth = require('../../../auth')
 const bcrypt = require('bcrypt')
+const error = require('../../../utils/error')
 
 const TABLE = 'auth'
 

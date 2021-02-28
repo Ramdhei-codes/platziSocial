@@ -6,6 +6,8 @@ const secure = require('./secure')
 
 const controller = require('./index')
 
+//get requests
+
 router.get('/', (req, res, next) => {
     controller.list()
         .then(list => {
@@ -24,6 +26,17 @@ router.get('/:id', (req, res, next) => {
     
 })
 
+router.get('/:id/following', secure('follow'), (req, res, next) => {
+    console.log(req.params.id)
+    controller.following(req.user.id)
+        .then(data => {
+            response.success(req, res, data, 201)
+        })
+        .catch(next)
+})
+
+//post requests
+
 router.post('/', (req, res, next) => {
     controller.upsert(req.body)
         .then(() => {
@@ -40,6 +53,8 @@ router.post('/follow/:id', secure('follow'), (req, res, next) => {
         })
         .catch(next)
 })
+
+//put requests
 
 router.put('/', secure('update') ,(req, res, next) => {
     controller.upsert(req.body)

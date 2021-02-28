@@ -48,10 +48,19 @@ module.exports = function (injectedStore) {
         })
     }
 
+    function following(userId) {
+        const join = {}
+        join[TABLE] = 'user_to'
+        const dataForQuery = {user_to: userId}
+
+        return store.query(`${TABLE}_follow`, dataForQuery, join)
+    }
+
     return {
         list,
         get,
         upsert,
-        follow
+        follow,
+        following
     }
 }

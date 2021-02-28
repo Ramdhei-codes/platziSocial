@@ -50,7 +50,7 @@ function list(table) {
 
 function get(table, id) {
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE id=${id}`, (err, data) => {
+        connection.query(`SELECT * FROM ${table} WHERE id= '${id}'`, (err, data) => {
             if (err) return reject(err)
 
             resolve(data)
@@ -96,21 +96,28 @@ function update(table, data) {
 function upsert(table, data) {
     let row = []
 
-    if(data.id) {
+    if (data.id) {
         row = get(table, data.id)
     }
 
-    if(row.length === 0){
+    if (row.length === 0) {
         return insert(table, data)
     } else {
         return update(table, data)
     }
 }
 
-function query(table, dataForQuery) {
+function query(table, dataForQuery, join) {
+    let joinQuery = ''
+    if (join) {
+        const tableKey = Object.keys(join)[0]
+        const column = join[tableKey]
+        joinQuery = `JOIN ${tableKey} ON ${table}.${column} = ${tableKey}.id`
+    }
+
     return new Promise((resolve, reject) => {
-        connection.query(`SELECT * FROM ${table} WHERE ?`, dataForQuery, (err, result) => {
-            if(err) {
+        connection.query(`SELECT * FROM ${table} ${joinQuery} WHERE ?`, dataForQuery, (err, result) => {
+            if (err) {
                 return reject(err)
             }
 
