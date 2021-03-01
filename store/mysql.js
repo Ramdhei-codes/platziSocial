@@ -93,11 +93,11 @@ function update(table, data) {
 }
 
 
-function upsert(table, data) {
+async function upsert(table, data) {
     let row = []
 
     if (data.id) {
-        row = get(table, data.id)
+        row = await get(table, data.id)
     }
 
     if (row.length === 0) {

@@ -28,6 +28,7 @@ module.exports = function (injectedStore) {
         const authData = {
             id: data.id
         }
+
         const rounds = 5
 
         if(data.username) {
