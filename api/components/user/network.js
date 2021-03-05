@@ -27,7 +27,7 @@ router.get('/:id', (req, res, next) => {
 })
 
 router.get('/:id/following', secure('follow'), (req, res, next) => {
-    console.log(req.params.id)
+    console.log(req.user)
     controller.following(req.user.id)
         .then(data => {
             response.success(req, res, data, 201)
