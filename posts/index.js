@@ -9,7 +9,7 @@ const errors = require('../network/errors')
 
 app.use(bodyParser.json())
 
-app.use('/post', post)
+app.use('/api/post', post)
 
 
 
