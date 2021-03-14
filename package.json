@@ -17,6 +17,7 @@
     "mysql": "^2.18.1",
     "nanoid": "^3.1.20",
     "request": "^2.88.2",
-    "swagger-ui-express": "^4.1.6"
+    "swagger-ui-express": "^4.1.6",
+    "vercel": "^21.3.3"
   }
 }
