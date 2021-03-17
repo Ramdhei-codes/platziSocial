@@ -14,5 +14,5 @@ app.use(bodyParser.json())
 app.use('/', router)
 
 app.listen(config.mysqlService.port, () => {
-    console.log(`Servicio de cache escuchando en el puerto ${config.cache.port}`)
+    console.log(`Servicio de cache escuchando en http://localhost:${config.cacheService.port}`)
 })

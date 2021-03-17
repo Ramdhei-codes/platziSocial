@@ -7,7 +7,7 @@ const store = require('../store/mysql')
 router.get('/:table', list)
 router.get('/:table/:id', get)
 router.post('/:table', insert)
-router.post('/:table', update)
+router.put('/:table', update)
 
 async function list(req, res, next) {
     try {

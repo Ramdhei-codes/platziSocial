@@ -51,7 +51,6 @@ function createRemoteDB(host, port) {
                     return reject(err.message)
                 }
 
-                console.log(body)
                 const response = JSON.parse(body)
                 return resolve(response.body)
             })
