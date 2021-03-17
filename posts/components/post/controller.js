@@ -2,15 +2,29 @@ const {nanoid} = require('nanoid')
 const error = require('../../../utils/error')
 const TABLE = 'posts'
 
-module.exports = function (injectedStore) {
+module.exports = function (injectedStore, injectedCache) {
     let store = injectedStore
+    let cache = injectedCache
 
     if(!store) {
         store = require('../../../store/dummy')
     }
+    if(!cache) {
+        cache = require('../../../cache/dummy')
+    }
 
-    function list(){
-        return store.list(TABLE)
+    async function list(){
+        let posts = await cache.list(TABLE)
+
+        if(!posts) {
+            console.info(`${TABLE} were not in cache, bringing from DB`)
+            posts = await store.list(TABLE)
+            cache.upsert(TABLE, posts)
+        } else {
+            console.log(`Bringing ${TABLE} from cache`)
+        }
+
+        return posts
     }
 
     function get(postId) {
